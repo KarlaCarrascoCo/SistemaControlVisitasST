@@ -1,0 +1,168 @@
+body {
+
+    background-image: url('/images/fondo-st.jpg');
+
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+
+    min-height: 100vh;
+}
+
+body::before {
+
+    content: '';
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0,0,0,0.25);
+
+    z-index: -1;
+}
+
+.titulo-principal {
+
+    color: white;
+
+    font-weight: 800;
+
+    text-shadow:
+        0 3px 15px rgba(0,0,0,0.9),
+        0 0 5px rgba(0,0,0,0.9);
+
+    letter-spacing: 1px;
+
+    margin-bottom: 15px;
+}
+
+.card-personalizada {
+
+    background: rgba(255,255,255,0.35);
+
+    backdrop-filter: blur(10px);
+
+    border-radius: 20px;
+
+    border: none;
+
+    box-shadow: 0 15px 35px rgba(0,0,0,0.35);
+
+    max-width: 1000px;
+
+    margin: auto;
+}
+
+.btn-st {
+
+    background-color: #2E5E4E;
+
+    color: white;
+
+    border: none;
+}
+
+.btn-st:hover {
+
+    background-color: #1F4538;
+
+    color: white;
+}
+
+.navbar-st {
+
+    background: rgba(31,69,56,0.95);
+
+    backdrop-filter: blur(2px);
+
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+.table-st {
+
+    background: rgba(255,255,255,0.95);
+
+    border-radius: 15px;
+
+    overflow: hidden;
+}
+
+.table-st thead {
+
+    background-color: #2E5E4E;
+
+    color: white;
+}
+
+.table-st thead th {
+
+    color: white;
+}
+
+.btn-warning {
+
+    border-radius: 8px;
+}
+
+.btn-danger {
+
+    border-radius: 8px;
+}
+
+.form-control {
+
+    background: rgba(255,255,255,0.50);
+
+    border: 1px solid rgba(255,255,255,0.30);
+
+    backdrop-filter: blur(4px);
+
+    color: #1F4538;
+}
+
+.form-control:focus {
+
+    background: rgba(255,255,255,0.80);
+
+    border-color: #2E5E4E;
+
+    box-shadow: 0 0 10px rgba(46,94,78,0.4);
+
+    color: #1F4538;
+}
+
+/* TABLA */
+
+.table {
+    color: #222;
+    margin-bottom: 0;
+}
+
+.table thead th {
+    background: rgba(28, 79, 63, 0.95);
+    color: white;
+    border: none;
+}
+
+.table tbody tr {
+    background: rgba(255,255,255,0.30);
+}
+
+.table tbody tr:hover {
+    background: rgba(255,255,255,0.45);
+}
+
+.table td,
+.table th {
+    vertical-align: middle;
+}
+
+.container-formulario {
+
+    margin-top: 20px !important;
+}

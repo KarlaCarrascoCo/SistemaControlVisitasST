@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Reportes de Visitas</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="/css/style.css">
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-st">
+
+    <div class="container d-flex justify-content-between">
+
+        <span class="navbar-brand">
+
+            Control de Visitas Santo Tomás
+
+        </span>
+
+        <div class="d-flex align-items-center gap-3">
+
+            <span
+                id="usuarioActual"
+                class="text-white fw-bold">
+
+            </span>
+
+            <button
+                id="btnSalir"
+                class="btn btn-danger btn-sm">
+
+                Cerrar Sesión
+
+            </button>
+
+        </div>
+
+    </div>
+
+</nav>
+
+    <div class="container mt-4">
+
+        <h2 class="text-center titulo-principal">
+
+            Reportes de Visitas
+
+        </h2>
+
+        <div class="mb-3 d-flex gap-2">
+
+            <a href="/"
+               class="btn btn-st">
+
+                Formulario
+
+            </a>
+
+            <a href="/listadoVisitantes.html"
+               class="btn btn-secondary">
+
+                Listado
+
+            </a>
+
+        </div>
+
+        <div class="card card-personalizada mb-4">
+
+            <div class="card-body">
+
+                <div class="row">
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+
+                            Fecha
+
+                        </label>
+
+                        <input
+                            type="date"
+                            id="fecha"
+                            class="form-control">
+
+                    </div>
+
+                    <div
+                        class="col-md-4"
+                        id="bloqueUnidad">
+
+                        <label class="form-label">
+
+                            Unidad
+
+                        </label>
+
+                        <select
+                            id="unidad"
+                            class="form-control">
+
+                            <option value="">
+
+                                Todas
+
+                            </option>
+
+                            <option value="1">
+
+                                Administración
+
+                            </option>
+
+                            <option value="2">
+
+                                Comunicaciones
+
+                            </option>
+
+                            <option value="3">
+
+                                Admisión
+
+                            </option>
+
+                            <option value="4">
+
+                                Seguridad
+
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+
+                            Asistencia
+
+                        </label>
+
+                        <select
+                            id="asistio"
+                            class="form-control">
+
+                            <option value="">
+
+                                Todos
+
+                            </option>
+
+                            <option value="1">
+
+                                Asistió
+
+                            </option>
+
+                            <option value="0">
+
+                                No Asistió
+
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+                <div class="mt-3">
+
+                    <button
+                        class="btn btn-st"
+                        onclick="generarReporte()">
+
+                        Generar Reporte
+                    </button>
+
+
+                <div class="mt-3">
+                    <strong>
+                        Registros encontrados:
+                        <span id="totalReporte">
+                            0
+                        </span>
+                    </strong>
+
+                </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="card card-personalizada">
+
+            <div class="card-body">
+
+                <div class="table-responsive">
+
+                    <table class="table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Fecha</th>
+                                <th>Hora</th>
+                                <th>Unidad</th>
+                                <th>Vehículo</th>
+                                <th>Patente</th>
+                                <th>Asistencia</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="tablaReporte">
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+<script>
+
+const usuarioLogueado =
+JSON.parse(
+    localStorage.getItem(
+        'usuarioLogueado'
+    )
+);
+
+if (usuarioLogueado) {
+
+    document
+.getElementById(
+    'usuarioActual'
+)
+.innerText =
+`${usuarioLogueado.nombre} ${usuarioLogueado.apellido} | ${usuarioLogueado.nombre_rol}`;
+}
+
+const esAdministrador =
+usuarioLogueado.id_rol == 1;
+
+const esUsuario =
+usuarioLogueado.id_rol == 2;
+
+const esGuardia =
+usuarioLogueado.id_rol == 3;
+
+if (esGuardia) {
+
+    alert(
+        'Los guardias no tienen acceso a reportes'
+    );
+
+    window.location.href = '/';
+}
+
+if (esUsuario) {
+
+    document
+    .getElementById(
+        'bloqueUnidad'
+    )
+    .style.display = 'none';
+}
+
+async function generarReporte() {
+
+    const fecha =
+    document.getElementById('fecha').value;
+
+    const unidad =
+    document.getElementById('unidad').value;
+
+    const asistio =
+    document.getElementById('asistio').value;
+
+    let unidadFiltro = unidad;
+
+    if (
+        usuarioLogueado.id_rol == 2
+    ) {
+        unidadFiltro =
+        usuarioLogueado.id_unidad;
+    }
+
+    console.log("Fecha:", fecha);
+    console.log("Unidad:", unidadFiltro);
+    console.log("Asistio:", asistio);
+
+    const url =
+`http://localhost:3000/api/reportes?fecha=${fecha}&unidad=${unidadFiltro}&asistio=${asistio}`;
+
+    const respuesta =
+    await fetch(url);
+
+    const visitas =
+    await respuesta.json();
+
+    document
+    .getElementById('totalReporte')
+    .innerText =
+    visitas.length;
+
+    let filas = '';
+
+    visitas.forEach(v => {
+
+        filas += `
+            <tr>
+
+                <td>${v.id_visitante}</td>
+
+                <td>${v.nombre_completo}</td>
+
+                <td>
+                    ${
+                        v.fecha_visita
+                        ? new Date(v.fecha_visita)
+                            .toLocaleDateString('es-CL')
+                        : ''
+                    }
+                </td>
+
+                <td>
+                    ${
+                        v.hora_visita
+                        ? v.hora_visita.substring(0,5)
+                        : ''
+                    }
+                </td>
+
+                <td>
+                    ${
+                        v.id_unidad == 1
+                        ? 'Administración'
+                        : v.id_unidad == 2
+                        ? 'Comunicaciones'
+                        : v.id_unidad == 3
+                        ? 'Admisión'
+                        : v.id_unidad == 4
+                        ? 'Seguridad'
+                        : ''
+                    }
+                </td>
+
+                <td>
+                    ${v.viene_vehiculo == 1 ? 'Sí' : 'No'}
+                </td>
+
+                <td>
+                    ${v.patente ?? '-'}
+                </td>
+
+                <td>
+                    ${
+                        v.asistio == 1
+                        ? '✅ Asistió'
+                        : '❌ No Asistió'
+                    }
+                </td>
+
+            </tr>
+        `;
+    });
+
+    document
+    .getElementById('tablaReporte')
+    .innerHTML = filas;
+}
+
+document
+.getElementById('btnSalir')
+.addEventListener('click', () => {
+
+    const confirmar =
+    confirm(
+        '¿Está seguro que desea cerrar sesión?'
+    );
+
+    if (!confirmar) return;
+
+    localStorage.removeItem(
+        'usuarioLogueado'
+    );
+
+    window.location.href =
+    '/login.html';
+});
+
+generarReporte();
+
+</script>
+
+</body>
+</html>
