@@ -18,3 +18,7 @@ Sistema de Control de Visitas desarrollado con Node.js, Express y MySQL.
 - Filtro por fecha
 - Filtro por unidad
 - Filtro por asistencia
+
+## Estado
+
+Proyecto finalizado para entrega académica.
