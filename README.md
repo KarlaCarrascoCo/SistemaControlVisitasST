@@ -12,3 +12,9 @@ Sistema de Control de Visitas desarrollado con Node.js, Express y MySQL.
 - Administrador
 - Usuario
 - Guardia
+
+## Reportes
+
+- Filtro por fecha
+- Filtro por unidad
+- Filtro por asistencia
